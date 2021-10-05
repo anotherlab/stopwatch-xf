@@ -12,6 +12,18 @@
         <ResourceDictionary>
             <xct:NotEqualConverter x:Key="NotEqualConverter" />
             <x:Boolean x:Key="IsTrue">True</x:Boolean>
+            <Style x:Key="numericStyle" TargetType="Label">
+                <Setter Property="HorizontalOptions" Value="End"/>
+                <Setter Property="FontFamily" Value="DigitalMono" />
+                <Setter Property="FontSize" Value="72" />
+                <Setter Property="Padding" Value="10,6,10,6" />
+                <Setter Property="TextColor" Value="Black" />
+            </Style>
+            <Style x:Key="startStopStyle" TargetType="Button">
+                <Setter Property="Margin" Value="0,10" />
+                <Setter Property="TextColor" Value="White" />
+                <Setter Property="HorizontalOptions" Value="CenterAndExpand" />
+            </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
     
@@ -23,9 +35,25 @@
             <Image Grid.Column="1" Source="stopwatch.png"/>
         </Grid>
 
-        <Label Text="{Binding ElapsedTime}" FontSize="64" Padding="30,10,30,10" HorizontalOptions="End" FontFamily="d7"/>
-        <Button Command="{Binding StartCommand}" IsVisible="{Binding IsRunning, Converter={StaticResource NotEqualConverter}, ConverterParameter={StaticResource IsTrue}}" Text="Start" BackgroundColor="Green" TextColor="White"/>
-        <Button Command="{Binding StopCommand}" IsVisible="{Binding IsRunning}" Text="Stop" BackgroundColor="Red" TextColor="White"/>
+        <Frame Padding="0" BackgroundColor="#5c5c5c" Margin="4,0,4,10" HasShadow="True">
+            <Frame Padding="0" BackgroundColor="#d6d6d6" Margin="4,4,4,4">
+                <Label Text="{Binding ElapsedTime}" Style="{StaticResource numericStyle}" />
+            </Frame>
+        </Frame>
+
+        <Button 
+            Command="{Binding StartCommand}" 
+            IsVisible="{Binding IsRunning, Converter={StaticResource NotEqualConverter}, ConverterParameter={StaticResource IsTrue}}" 
+            Text="Start" 
+            BackgroundColor="Green" 
+            Style="{StaticResource startStopStyle}"/>
+        
+        <Button 
+            Command="{Binding StopCommand}" 
+            IsVisible="{Binding IsRunning}" 
+            Text="Stop" 
+            BackgroundColor="Red" 
+            Style="{StaticResource startStopStyle}"/>
     </StackLayout>
 
 </ContentPage>

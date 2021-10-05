@@ -9,7 +9,7 @@ namespace xfStopWatch.ViewModels
 {
     public class StopWatchViewModel : BaseViewModel
     {
-        Stopwatch stopwatch = new Stopwatch();
+        readonly Stopwatch stopwatch = new Stopwatch();
 
         TimeSpan elapsed;
         public TimeSpan Elapsed
@@ -21,7 +21,7 @@ namespace xfStopWatch.ViewModels
             }            
         }
 
-        private void start()
+        private void Start()
         {
             stopwatch.Restart();
 
@@ -29,12 +29,15 @@ namespace xfStopWatch.ViewModels
 
             Device.StartTimer(TimeSpan.FromMilliseconds(100), () =>
             {
-                ElapsedTime = stopwatch.Elapsed.ToString(@"mm\:ss\.fff");
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    ElapsedTime = stopwatch.Elapsed.ToString(@"mm\:ss\.fff");
+                });
                 return isRunning;
             });
         }
 
-        private void stop()
+        private void Stop()
         {
             stopwatch.Stop();
             IsRunning = false;
@@ -60,8 +63,8 @@ namespace xfStopWatch.ViewModels
         public StopWatchViewModel()
         {
             IsRunning = false;
-            StartCommand = new Command(() => start());
-            StopCommand = new Command(() => stop());
+            StartCommand = new Command(() => Start());
+            StopCommand = new Command(() => Stop());
         }
     }
 }
